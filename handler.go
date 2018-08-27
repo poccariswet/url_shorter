@@ -1,7 +1,15 @@
-package main
+package url_shortener
 
-import "github.com/gin-gonic/gin"
+import (
+	"net/http"
 
-func UrlShortener(c *gin.Context) {
+	"github.com/labstack/echo"
+)
 
+func sampleHandler(c echo.Context) error {
+	return c.JSON(http.StatusOK, "sample handler")
+}
+
+func UrlShortenerHandler(c echo.Context) error {
+	return c.JSON(http.StatusOK, "urlShortenerHandler")
 }
