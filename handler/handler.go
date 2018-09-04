@@ -1,4 +1,4 @@
-package url_shortener
+package handler
 
 import (
 	"net/http"
@@ -6,8 +6,12 @@ import (
 	"github.com/labstack/echo"
 )
 
-func sampleHandler(c echo.Context) error {
+func SampleHandler(c echo.Context) error {
 	return c.JSON(http.StatusOK, "sample handler")
+}
+
+func UrlShortenerStatusHandler(c echo.Context) error {
+	return c.JSON(http.StatusOK, "UrlShortenerStatusHandler")
 }
 
 func UrlShortenerHandler(c echo.Context) error {
