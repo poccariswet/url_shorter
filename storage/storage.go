@@ -1,5 +1,7 @@
 package storage
 
-type Service interface{}
+type Service interface {
+	Close() error
+}
 
 type Shorten struct{}
