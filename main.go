@@ -1,10 +1,14 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
+	"os/signal"
+	"time"
 
 	"github.com/labstack/echo"
+	"github.com/labstack/gommon/log"
 	"github.com/soeyusuke/url_shorter/handler"
 	"github.com/soeyusuke/url_shorter/storage/mysql"
 )
@@ -18,6 +22,7 @@ func main() {
 	defer db.Close()
 
 	e := echo.New()
+	e.Logger.SetLevel(log.INFO)
 	e.GET("/", handler.SampleHandler)
 	e.GET("urlshortener/info", handler.UrlShortenerStatusHandler)
 	e.POST("urlshortener", handler.UrlShortenerHandler)
@@ -27,5 +32,19 @@ func main() {
 		port = "8080"
 	}
 
-	e.Logger.Fatal(e.Start(":" + port))
+	// Start server
+	go func() {
+		if err := e.Start(":" + port); err != nil {
+			e.Logger.Info("shutting down the server")
+		}
+	}()
+
+	quit := make(chan os.Signal)
+	signal.Notify(quit, os.Interrupt)
+	<-quit
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	if err := e.Shutdown(ctx); err != nil {
+		e.Logger.Fatal(err)
+	}
 }
