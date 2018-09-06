@@ -6,7 +6,7 @@ import (
 	"github.com/labstack/echo"
 )
 
-func SampleHandler(c echo.Context) error {
+func RedirectHandler(c echo.Context) error {
 	return c.JSON(http.StatusOK, "sample handler")
 }
 

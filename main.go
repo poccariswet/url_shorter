@@ -23,7 +23,7 @@ func main() {
 
 	e := echo.New()
 	e.Logger.SetLevel(log.INFO)
-	e.GET("/", handler.SampleHandler)
+	e.GET("/", handler.RedirectHandler)
 	e.GET("urlshortener/info", handler.UrlShortenerStatusHandler)
 	e.POST("urlshortener", handler.UrlShortenerHandler)
 
