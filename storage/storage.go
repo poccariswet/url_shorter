@@ -4,4 +4,9 @@ type Service interface {
 	Close() error
 }
 
-type Shorten struct{}
+type Shorten struct {
+	LongURL    string `json"long_url"`
+	ShortenURL string `json:"short_url"`
+	Count      int    `json:"count"`
+	Status     int    `json:"status"`
+}
