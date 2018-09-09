@@ -1,6 +1,8 @@
 package storage
 
 type Service interface {
+	Save(string) error
+	CountUrl(string) error
 	Close() error
 }
 
