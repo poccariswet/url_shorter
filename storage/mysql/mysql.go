@@ -1,15 +1,15 @@
 package mysql
 
 import (
-	"database/sql"
 	"fmt"
 	"os"
 
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/xorm"
 )
 
 type mysql struct {
-	DB *sql.DB
+	DB *xorm.Engine
 }
 
 const tablename = "todos"
