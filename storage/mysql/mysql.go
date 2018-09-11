@@ -6,13 +6,15 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/xorm"
+	"github.com/pkg/errors"
+	"github.com/soeyusuke/url_shorter/storage"
 )
 
 type mysql struct {
 	DB *xorm.Engine
 }
 
-const tablename = "todos"
+const tablename = "urlsho"
 
 var (
 	user   = os.Getenv("MYSQL_USER")
@@ -32,12 +34,16 @@ func New() (*mysql, error) {
 	}, nil
 }
 
-func Save(long_url string) error {
+func (m *mysql) Save(long_url string) error {
+	affected, err := m.DB.Insert(&storage.Urlsho{LongURL: long_url})
+	if err != nil {
+		return errors.Wrapf(err, fmt.Sprintf(": %d", affected))
+	}
 
 	return nil
 }
 
-func CountUrl(code string) error {
+func (m *mysql) CountUrl(code string) error {
 
 	return nil
 }

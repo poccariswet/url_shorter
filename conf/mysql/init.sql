@@ -1,6 +1,6 @@
 use shorten_db;
 
-CREATE TABLE `urlshorten` (
+CREATE TABLE `urlsho` (
   id INTEGER(11) NOT NULL AUTO_INCREMENT,
   long_url TEXT NOT NULL,
   short_url VARCHAR(255) NOT NULL,
