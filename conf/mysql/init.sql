@@ -1,4 +1,4 @@
-use shorten_db;
+use urlsho_db;
 
 CREATE TABLE `urlsho` (
   id INTEGER(11) NOT NULL AUTO_INCREMENT,
