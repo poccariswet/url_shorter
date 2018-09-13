@@ -5,13 +5,12 @@ import (
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/go-xorm/xorm"
-	"github.com/pkg/errors"
+	"github.com/soeyusuke/gitclone/gorm"
 	"github.com/soeyusuke/url_shorter/storage"
 )
 
 type mysql struct {
-	DB *xorm.Engine
+	DB *gorm.DB
 }
 
 const tablename = "urlsho"
@@ -22,28 +21,37 @@ var (
 	dbname = os.Getenv("MYSQL_DATABASE")
 )
 
-func New() (*mysql, error) {
+func (m *mysql) NewDB() error {
 	connection := fmt.Sprintf("%s:%s@tcp(mysql:3306)/%s?charset=utf8&parseTime=True&loc=Local", user, pass, dbname)
-	db, err := xorm.NewEngine("mysql", connection)
+	db, err := gorm.Open("mysql", connection)
 	if err != nil {
-		return nil, err
+		return err
 	}
+	m.DB = db
 
-	return &mysql{
-		DB: db,
-	}, nil
+	return nil
 }
 
 func (m *mysql) Save(long_url string) error {
-	affected, err := m.DB.Insert(&storage.Urlsho{LongURL: long_url})
-	if err != nil {
-		return errors.Wrapf(err, fmt.Sprintf(": %d", affected))
+	if err := m.NewDB(); err != nil {
+		return err
 	}
+	defer m.Close()
+
+	m.DB.Create(&storage.Urlsho{
+		longUrl: long_url,
+	})
 
 	return nil
 }
 
 func (m *mysql) CountUrl(code string) error {
+	if err := m.NewDB(); err != nil {
+		return err
+	}
+	defer m.Close()
+
+	//TODO m.DB.Update()
 
 	return nil
 }

@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"os"
 	"os/signal"
 	"time"
@@ -10,16 +9,9 @@ import (
 	"github.com/labstack/echo"
 	"github.com/labstack/gommon/log"
 	"github.com/soeyusuke/url_shorter/handler"
-	"github.com/soeyusuke/url_shorter/storage/mysql"
 )
 
 func main() {
-	db, err := mysql.New()
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
-	}
-	defer db.Close()
 
 	e := echo.New()
 	e.Logger.SetLevel(log.INFO)
