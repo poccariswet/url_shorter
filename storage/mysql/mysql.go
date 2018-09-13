@@ -2,7 +2,6 @@ package mysql
 
 import (
 	"fmt"
-	"os"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/soeyusuke/gitclone/gorm"
@@ -13,13 +12,16 @@ type mysql struct {
 	DB *gorm.DB
 }
 
-const tablename = "urlsho"
-
-var (
-	user   = os.Getenv("MYSQL_USER")
-	pass   = os.Getenv("MYSQL_PASS")
-	dbname = os.Getenv("MYSQL_DATABASE")
+const (
+	user      = "urlsho_user"
+	pass      = "urlsho_pass"
+	dbname    = "urlsho_db"
+	tablename = "urlsho"
 )
+
+func InitConfig() *mysql {
+	return &mysql{}
+}
 
 func (m *mysql) NewDB() error {
 	connection := fmt.Sprintf("%s:%s@tcp(mysql:3306)/%s?charset=utf8&parseTime=True&loc=Local", user, pass, dbname)
@@ -39,7 +41,7 @@ func (m *mysql) Save(long_url string) error {
 	defer m.Close()
 
 	m.DB.Create(&storage.Urlsho{
-		longUrl: long_url,
+		LongURL: long_url,
 	})
 
 	return nil
