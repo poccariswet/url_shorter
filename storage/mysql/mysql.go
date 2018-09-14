@@ -5,6 +5,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/soeyusuke/gitclone/gorm"
+	"github.com/soeyusuke/url_shorter/base62"
 	"github.com/soeyusuke/url_shorter/storage"
 )
 
@@ -34,17 +35,18 @@ func (m *mysql) NewDB() error {
 	return nil
 }
 
-func (m *mysql) Save(long_url string) error {
+func (m *mysql) Save(long_url string) (string, error) {
 	if err := m.NewDB(); err != nil {
-		return err
+		return "", err
 	}
 	defer m.Close()
 
-	m.DB.Create(&storage.Urlsho{
+	u := storage.Urlsho{
 		LongURL: long_url,
-	})
+	}
+	m.DB.Table(tablename).Create(u)
 
-	return nil
+	return base62.Encode(u.Id), nil
 }
 
 func (m *mysql) CountUrl(code string) error {
