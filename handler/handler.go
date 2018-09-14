@@ -7,7 +7,7 @@ import (
 )
 
 type URL struct {
-	Url string `json:"url"`
+	Url string `json:"url" validate max=255`
 }
 
 func RedirectHandler(c echo.Context) error {
@@ -23,6 +23,10 @@ func UrlShortenerHandler(c echo.Context) error {
 
 	// TODO: validationの追加
 	if err := c.Bind(&long_url); err != nil {
+		return err
+	}
+
+	if err := c.Validate(&long_url); err != nil {
 		return err
 	}
 
