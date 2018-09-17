@@ -20,7 +20,7 @@ const (
 	tablename = "urlsho"
 )
 
-func InitConfig() *mysql {
+func Init() *mysql {
 	return &mysql{}
 }
 
