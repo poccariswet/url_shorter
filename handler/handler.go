@@ -36,7 +36,5 @@ func UrlShortenerHandler(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, CustomBadResponse(err))
 	}
 
-	var shorten_url string
-
-	return c.JSON(http.StatusOK, CustomSuccessResponse(shorten_url, long_url.Url))
+	return c.JSON(http.StatusOK, CustomSuccessResponse(CreateURL(b), long_url.Url))
 }
