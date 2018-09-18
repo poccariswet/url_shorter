@@ -6,6 +6,7 @@ import (
 	"os/signal"
 	"time"
 
+	"github.com/go-playground/validator"
 	"github.com/labstack/echo"
 	"github.com/labstack/gommon/log"
 	"github.com/soeyusuke/url_shorter/handler"
@@ -14,6 +15,9 @@ import (
 func main() {
 
 	e := echo.New()
+	e.Validator = &handler.CustomValidator{
+		Validator: validator.New(),
+	}
 	e.Logger.SetLevel(log.INFO)
 	e.GET("/", handler.RedirectHandler)
 	e.GET("urlshortener/info", handler.UrlShortenerStatusHandler)

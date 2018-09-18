@@ -8,7 +8,7 @@ import (
 )
 
 type URL struct {
-	Url string `json:"url" validate max=255`
+	Url string `json:"url" validate:"max=255"`
 }
 
 func RedirectHandler(c echo.Context) error {
