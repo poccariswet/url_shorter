@@ -1,6 +1,7 @@
 package mysql
 
 import (
+	"errors"
 	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -25,7 +26,7 @@ func Init() *mysql {
 }
 
 func (m *mysql) NewDB() error {
-	connection := fmt.Sprintf("%s:%s@tcp(mysql:3306)/%s?charset=utf8&parseTime=True&loc=Local", user, pass, dbname)
+	connection := fmt.Sprintf("%s:%s@/%s?charset=utf8&parseTime=True&loc=Local", user, pass, dbname)
 	db, err := gorm.Open("mysql", connection)
 	if err != nil {
 		return err
@@ -41,10 +42,14 @@ func (m *mysql) Save(long_url string) (string, error) {
 	}
 	defer m.Close()
 
-	u := storage.Urlsho{
+	u := &storage.Urlsho{
 		LongURL: long_url,
+		Count:   0,
 	}
 	m.DB.Table(tablename).Create(u)
+	if u.Id == 0 {
+		return "", errors.New("not insert data")
+	}
 
 	return base62.Encode(u.Id), nil
 }

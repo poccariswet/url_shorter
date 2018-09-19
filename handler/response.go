@@ -1,5 +1,7 @@
 package handler
 
+import "fmt"
+
 type SuccessResponse struct {
 	Id      string `json:"id"`
 	LongUrl string `json:"longURL"`
@@ -7,7 +9,7 @@ type SuccessResponse struct {
 }
 
 type BadResponse struct {
-	Err    error  `json:"err"`
+	Err    string `json:"err"`
 	Status string `json:"status"`
 }
 
@@ -21,7 +23,7 @@ func CustomSuccessResponse(short_url, long_url string) SuccessResponse {
 
 func CustomBadResponse(err error) BadResponse {
 	return BadResponse{
-		Err:    err,
+		Err:    fmt.Sprintf("%v", err),
 		Status: "ERROR",
 	}
 }

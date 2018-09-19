@@ -13,7 +13,7 @@ func CreateURL(encoded string) string {
 
 	u := &url.URL{
 		Scheme: "http",
-		Host:   "localhost" + port,
+		Host:   "localhost:" + port,
 		Path:   encoded,
 	}
 
