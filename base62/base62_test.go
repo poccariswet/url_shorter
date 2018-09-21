@@ -20,11 +20,7 @@ func TestEncode(t *testing.T) {
 	}
 
 	for _, v := range testData {
-		en, err := base62.Encode(v.n)
-		if err != nil {
-			t.Fatal(err)
-		}
-
+		en := base62.Encode(v.n)
 		if en != v.s {
 			t.Fatalf("%d encoded expexted %s, but %s", v.n, v.s, en)
 		}
