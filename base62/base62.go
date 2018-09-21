@@ -11,7 +11,11 @@ const (
 	baseSet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 )
 
-func Encode(n int) string {
+func Encode(n int) (string, error) {
+	if n == 0 {
+		return "", errors.New("request num is invalid")
+	}
+
 	buf := make([]byte, 0)
 
 	for ; n > 0; n = n / Base62 {
@@ -19,10 +23,14 @@ func Encode(n int) string {
 		buf = append([]byte{baseSet[int(r)]}, buf...)
 	}
 
-	return string(buf)
+	return string(buf), nil
 }
 
 func Decode(s string) (int, error) {
+	if s == "" {
+		return 0, errors.New("non value")
+	}
+
 	r, pow := 0, 0
 	for i, v := range s {
 		pow = len(s) - (i + 1)
