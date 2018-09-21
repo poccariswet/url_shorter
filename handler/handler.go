@@ -29,6 +29,8 @@ func RedirectHandler(c echo.Context) error {
 }
 
 func UrlShortenerStatusHandler(c echo.Context) error {
+	code := c.Param("id")
+	_ = code
 	return c.JSON(http.StatusOK, "UrlShortenerStatusHandler")
 }
 

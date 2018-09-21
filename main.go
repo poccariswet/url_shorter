@@ -20,7 +20,7 @@ func main() {
 	}
 	e.Logger.SetLevel(log.INFO)
 	e.GET("/:id", handler.RedirectHandler)
-	e.GET("urlshortener/info", handler.UrlShortenerStatusHandler)
+	e.GET("urlshortener/info/:id", handler.UrlShortenerStatusHandler)
 	e.POST("urlshortener", handler.UrlShortenerHandler)
 
 	port := os.Getenv("PORT")
