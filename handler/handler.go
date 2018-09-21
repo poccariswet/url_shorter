@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
+	"github.com/soeyusuke/url_shorter/base62"
 	"github.com/soeyusuke/url_shorter/storage/mysql"
 )
 
@@ -12,10 +13,24 @@ type URL struct {
 }
 
 func RedirectHandler(c echo.Context) error {
-	return c.JSON(http.StatusOK, "sample handler")
+	code := c.Param("id")
+	decode, err := base62.Decode(code)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, CustomBadResponse(err))
+	}
+
+	m := mysql.Init()
+	url, err := m.LoadAndCountUp(decode)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, CustomBadResponse(err))
+	}
+
+	return c.Redirect(http.StatusMovedPermanently, url)
 }
 
 func UrlShortenerStatusHandler(c echo.Context) error {
+	code := c.Param("id")
+	_ = code
 	return c.JSON(http.StatusOK, "UrlShortenerStatusHandler")
 }
 

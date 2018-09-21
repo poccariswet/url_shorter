@@ -48,21 +48,26 @@ func (m *mysql) Save(long_url string) (string, error) {
 	}
 	m.DB.Table(tablename).Create(u)
 	if u.Id == 0 {
-		return "", errors.New("not insert data")
+		return "", errors.New("not save data")
 	}
 
 	return base62.Encode(u.Id), nil
 }
 
-func (m *mysql) CountUrl(code string) error {
+func (m *mysql) LoadAndCountUp(id int) (string, error) {
 	if err := m.NewDB(); err != nil {
-		return err
+		return "", err
 	}
 	defer m.Close()
 
-	//TODO m.DB.Update()
+	var u storage.Urlsho
+	m.DB.Raw("UPDATE urlsho SET count=count+1 WHERE id = ?", id)
+	m.DB.Raw("SELECT * FROM urlsho WHERE id = ?", id).Scan(&u)
+	if u.Id == 0 {
+		return "", errors.New(fmt.Sprintf("%v", u))
+	}
 
-	return nil
+	return u.LongURL, nil
 }
 
 func (m *mysql) Close() error {
