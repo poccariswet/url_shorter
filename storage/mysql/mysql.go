@@ -62,12 +62,27 @@ func (m *mysql) LoadAndCountUp(id int) (string, error) {
 
 	var u storage.Urlsho
 	m.DB.Raw("UPDATE urlsho SET count=count+1 WHERE id = ?", id)
-	m.DB.Raw("SELECT * FROM urlsho WHERE id = ?", id).Scan(&u)
+	m.DB.Table(tablename).Find(&u, "id = ?", id)
 	if u.Id == 0 {
 		return "", errors.New(fmt.Sprintf("%v", u))
 	}
 
 	return u.LongURL, nil
+}
+
+func (m *mysql) FetchInfo(id int) (*storage.Urlsho, error) {
+	if err := m.NewDB(); err != nil {
+		return nil, err
+	}
+	defer m.Close()
+
+	var u storage.Urlsho
+	m.DB.Table(tablename).Find(&u, "id = ?", id)
+	if u.Id == 0 {
+		return nil, errors.New("fetch data err")
+	}
+
+	return &u, nil
 }
 
 func (m *mysql) Close() error {

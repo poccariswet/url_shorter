@@ -30,8 +30,18 @@ func RedirectHandler(c echo.Context) error {
 
 func UrlShortenerStatusHandler(c echo.Context) error {
 	code := c.Param("id")
-	_ = code
-	return c.JSON(http.StatusOK, "UrlShortenerStatusHandler")
+	decode, err := base62.Decode(code)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, CustomBadResponse(err))
+	}
+
+	m := mysql.Init()
+	url, err := m.FetchInfo(decode)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, CustomBadResponse(err))
+	}
+
+	return c.JSON(http.StatusOK, url)
 }
 
 func UrlShortenerHandler(c echo.Context) error {
