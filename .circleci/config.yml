@@ -8,5 +8,5 @@ jobs:
     steps:
       - checkout
 
-      - run: go get -v ./base62
+      - run: go test -v ./base62
 #      - run: go test -v ./...
