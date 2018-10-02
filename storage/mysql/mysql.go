@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/soeyusuke/gitclone/gorm"
+	"github.com/jinzhu/gorm"
 	"github.com/soeyusuke/url_shorter/base62"
 	"github.com/soeyusuke/url_shorter/storage"
 )
