@@ -1,6 +1,15 @@
 version: '3.3'
 
 services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - database
+    ports:
+      - "9999:9999"
+
   mysql:
     image: 'mysql:5.7.22'
     ports:
@@ -10,6 +19,8 @@ services:
       MYSQL_PASSWORD: urlsho_pass
       MYSQL_DATABASE: urlsho_db
       MYSQL_ROOT_PASSWORD: password
+    networks:
+      - database
     volumes:
       - "./conf/mysql:/docker-entrypoint-initdb.d"
       - db-data:/var/lib/mysql
@@ -17,3 +28,6 @@ services:
 
 volumes:
   db-data:
+
+networks:
+  database:
