@@ -1,16 +1,7 @@
 version: '3.3'
 
 services:
-  api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    networks:
-      - database
-    ports:
-      - "9999:9999"
-
-  mysql:
+   mysql:
     image: 'mysql:5.7.22'
     ports:
       - "3306:3306"
@@ -25,6 +16,14 @@ services:
       - "./conf/mysql:/docker-entrypoint-initdb.d"
       - db-data:/var/lib/mysql
 
+   api:
+     build:
+       context: .
+       dockerfile: Dockerfile
+     networks:
+       - database
+     ports:
+       - "8080:8080"
 
 volumes:
   db-data:

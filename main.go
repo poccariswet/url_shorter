@@ -31,7 +31,7 @@ func main() {
 	// Start server
 	go func() {
 		if err := e.Start(":" + port); err != nil {
-			e.Logger.Info("shutting down the server")
+			e.Logger.Info("shut down the server")
 		}
 	}()
 
