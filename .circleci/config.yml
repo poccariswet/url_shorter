@@ -4,7 +4,7 @@ jobs:
     docker:
       - image: circleci/golang:1.10
 
-    working_directory: /go/src/github.com/soeyusuke/url_shorter
+    working_directory: /go/src/github.com/poccariswet/url_shorter
     steps:
       - checkout
 
