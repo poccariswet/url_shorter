@@ -3,7 +3,7 @@ package base62_test
 import (
 	"testing"
 
-	"github.com/soeyusuke/url_shorter/base62"
+	"github.com/poccariswet/url_shorter/base62"
 )
 
 func TestEncode(t *testing.T) {

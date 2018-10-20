@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
-	"github.com/soeyusuke/url_shorter/base62"
-	"github.com/soeyusuke/url_shorter/storage/mysql"
+	"github.com/poccariswet/url_shorter/base62"
+	"github.com/poccariswet/url_shorter/storage/mysql"
 )
 
 type URL struct {

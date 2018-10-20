@@ -9,7 +9,7 @@ import (
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo"
 	"github.com/labstack/gommon/log"
-	"github.com/soeyusuke/url_shorter/handler"
+	"github.com/poccariswet/url_shorter/handler"
 )
 
 func main() {

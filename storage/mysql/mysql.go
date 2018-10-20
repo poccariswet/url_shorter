@@ -6,8 +6,8 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
-	"github.com/soeyusuke/url_shorter/base62"
-	"github.com/soeyusuke/url_shorter/storage"
+	"github.com/poccariswet/url_shorter/base62"
+	"github.com/poccariswet/url_shorter/storage"
 )
 
 type mysql struct {
