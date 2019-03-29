@@ -12,21 +12,25 @@ services:
       MYSQL_ROOT_PASSWORD: password
     networks:
       - database
+      - "6379:6379"
+    command: redis-server --appendonly yes
+#    networks:
+#      - database
     volumes:
       - "./conf/mysql:/docker-entrypoint-initdb.d"
       - db-data:/var/lib/mysql
 
-   api:
-     build:
-       context: .
-       dockerfile: Dockerfile
-     networks:
-       - database
-     ports:
-       - "8080:8080"
+#   api:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     networks:
+#       - database
+#     ports:
+#       - "8080:8080"
 
 volumes:
   db-data:
 
-networks:
-  database:
+#networks:
+#  database:
